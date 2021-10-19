@@ -39,12 +39,22 @@
         {'title': 'A First Meetup'},
         {'title': 'A Second Meetup'}
     ]
- *  En la vista (html) podemos usar entonces esta data de la siguiente forma:
+ *  En la vista (html) podemos usar entonces esta data de la siguiente forma /n:
     ![image](https://user-images.githubusercontent.com/84333525/137948872-57954536-7c0f-45a7-942a-e6435425caee.png)
     - Nota: en este caso solo estamos accediendo al primer objeto del diccionario, pero es solo con fines demostrativos.
     - Lo correcto es iterar sobre todos los objetos del diccionario para mostrar sus datos en la vista.
- *  Ejemplo de condicional if en el lenguaje de plantillas de django: 
+ *  Ejemplo de condicional if en el lenguaje de plantillas de django /n: 
     ![image](https://user-images.githubusercontent.com/84333525/137949596-d7089337-5970-4820-ae67-d2523ef8cac5.png)
- *  Ejemplo de como sería un for:
+ *  Ejemplo de como sería un for /n:
     ![image](https://user-images.githubusercontent.com/84333525/137950834-a56dce88-f57a-429e-80c4-6979c99cde55.png)
+
+## Crear una view con un parámetro dinámico:
+* Crear la función en el archivo views.py, recordar que se le debe pasar como primer parametro el request, como segundo y obligatorio el parámetro que se va utilizar como identificador.
+* Crear el archivo .html que se va a renderizar en la función.
+* Agregar la nueva url por la cuál se va a llamar la view. Tener en cuenta que los parámetros dinámicos para conformar la url van entre brackets <> como en el siguiente ejemplo /n:
+![image](https://user-images.githubusercontent.com/84333525/137972481-e78edca4-1dcd-43c4-a4fa-5d3f28649305.png)
+* No se modifican las urls generales del proyecto porque ya estas fueron adicionadas.
+* Cuándo se va a generar un link dinámico, o sea el que va a llamar a la url dinámica se usa {% url 'nombre de la vista que se va a llamar' %} porque de esta manera si necesitamos cambiar en un momento determinado la url sólo se cambiaría en un solo lugar ejemplo: /n
+  ![image](https://user-images.githubusercontent.com/84333525/137982854-e130e6a5-6ca0-4940-9570-f31a117da8b9.png)
+el tercer parametro sería la propiedad por la cual se va identificar el objeto para realizar las operaciones pertinentes.
 
