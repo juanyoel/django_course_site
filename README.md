@@ -25,3 +25,26 @@
 
 ## Levantar servidor de desarrollo
 * Para utilizar el servidor de desarrollo utilizamos el comando **python manage.py runserver**
+
+## Para hacer uso de los **templates**:
+ * Creamos una carpeta llamada templates en la app.
+ * Dentro de la carpeta anterior creamos una carpeta con el nombre de la app. Debido a un tema orgnizativo, ya que cuando django va a desplique recoge todos los templates en una sola carpeta, lo que puede provocar problemas si tenemos varios templates con el mismo nombre.
+ * En el archivo views.py utilizaremos la funcion render en vez del HTTResponse como teníamos hasta el momento.
+   - render(request, 'meetups/index.html') siempre se le pasa como primer parametro el objeto request y como segundo el camino relativo a la plantilla que se estará utilizando.
+ * Los archivos .js, .css, imagenes y demás los organizamos en sus respectivas carpetas dentro de un directorio static que creamos en la app.
+ * Para usar alguno de los archivos de las carpetas mencionadas anteriormente se utiliza el lenguaje de plantillas de django --> **<link rel="stylesheet" href="{% static 'meetups/styles/base.css'%}">** ejemplo para utilizar un css.
+ * En la views.py al método render se le pasa como parámetro un tercer argumento que será dónde se envia la data a mostrar en la vista, por ejemplo --> **return render(request, 'meetups/index.html', {
+        'meetups': meetups
+    })**, donde meetups en este ejemplo sería --> meetups = [
+        {'title': 'A First Meetup'},
+        {'title': 'A Second Meetup'}
+    ]
+ *  En la vista (html) podemos usar entonces esta data de la siguiente forma:
+    ![image](https://user-images.githubusercontent.com/84333525/137948872-57954536-7c0f-45a7-942a-e6435425caee.png)
+    - Nota: en este caso solo estamos accediendo al primer objeto del diccionario, pero es solo con fines demostrativos.
+    - Lo correcto es iterar sobre todos los objetos del diccionario para mostrar sus datos en la vista.
+ *  Ejemplo de condicional if en el lenguaje de plantillas de django: 
+    ![image](https://user-images.githubusercontent.com/84333525/137949596-d7089337-5970-4820-ae67-d2523ef8cac5.png)
+ *  Ejemplo de como sería un for:
+    ![image](https://user-images.githubusercontent.com/84333525/137950834-a56dce88-f57a-429e-80c4-6979c99cde55.png)
+
