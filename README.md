@@ -58,3 +58,13 @@
   ![image](https://user-images.githubusercontent.com/84333525/137982854-e130e6a5-6ca0-4940-9570-f31a117da8b9.png)
 el tercer parametro sería la propiedad por la cual se va identificar el objeto para realizar las operaciones pertinentes.
 
+
+## Reutilización de código en las plantillas *(Creación de una plantilla base)* que contiene el código base que se hereda a todas las demás:
+* Crear el directorio que contendrá la(s) plantillas base, generalmente debería tener este mismo nombre.
+* En la plantilla base las secciones que las plantillas hijas van a sobrescribir se encierran entre bloques con la palabra clave block ejemplo:
+  ![image](https://user-images.githubusercontent.com/84333525/138098393-aa9cb462-106a-46db-a0ba-7c30df03cb70.png)
+* En la página hija se debe incluir el código que le indica de que plantilla estará heredando, ejemplo: 
+  ![image](https://user-images.githubusercontent.com/84333525/138099424-dceaf678-f7b0-45f7-8563-2093182a36a5.png)
+
+
+
