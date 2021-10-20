@@ -59,12 +59,45 @@
 el tercer parametro sería la propiedad por la cual se va identificar el objeto para realizar las operaciones pertinentes.
 
 
-## Reutilización de código en las plantillas *(Creación de una plantilla base)* que contiene el código base que se hereda a todas las demás:
+## Herencia de código en las plantillas *(Creación de una plantilla base)* que contiene el código base que se hereda a todas las demás:
 * Crear el directorio que contendrá la(s) plantillas base, generalmente debería tener este mismo nombre.
 * En la plantilla base las secciones que las plantillas hijas van a sobrescribir se encierran entre bloques con la palabra clave block ejemplo:
   ![image](https://user-images.githubusercontent.com/84333525/138098393-aa9cb462-106a-46db-a0ba-7c30df03cb70.png)
 * En la página hija se debe incluir el código que le indica de que plantilla estará heredando, ejemplo: 
   ![image](https://user-images.githubusercontent.com/84333525/138099424-dceaf678-f7b0-45f7-8563-2093182a36a5.png)
 
+
+## Reutilización de código (partials):
+* Se pueden escribir códigos reutilizables, a los que se le llaman partials o includes. Es el código que podemos utilizar independientemente de la página en la que estemos como por ejemplo la estructura de una lista.
+* Creamos una carpeta para estos recursos, naturalmente le ponemos de nombre includes.
+* Para incluir una porción de código utilizamos la palabra reservada include, ejemplo:
+  ![image](https://user-images.githubusercontent.com/84333525/138113484-f1d23344-6664-4c1f-ab54-4eda8ef5c3de.png)
+
+
+## DATA:
+![image](https://user-images.githubusercontent.com/84333525/138116436-5fc58dc4-132c-4244-9830-a7b1052e8636.png)
+
+
+* En Django no necesitamos conocer el lenguaje sql para interactuar con la BD, nos brinda una serie de herramientas que nos posibilita interactuar con la BD de forma sencilla.
+* Para ser precisos esto se definen en los modelos:
+ - Son clases representaciones de los datos que se estarán manejando en la aplicación.
+ - Automáticamente para cada modelo Djando creará una tabla en la BD.
+* Los modelos se definen en el archivo model.py de la app.
+* Creamos la clase del modelo que se requiera y siempre se le debe pasar como parámetro *models.Model* que es lo que nos da acceso a las métodos necesarios para interactuar con la BD, ejemplo:
+  ![image](https://user-images.githubusercontent.com/84333525/138118125-3863810f-9fec-4c39-9597-9ea6365b6053.png)
+* Ejemplo de modelo:
+  ![image](https://user-images.githubusercontent.com/84333525/138123005-d653a7e5-7f84-45d1-8f1b-64be8a742c06.png)
+  - Para texto pequeños utilizamos *CharField()* definiendole la cantidad de caracteres que puede admitir el campo.
+  - En la foto anterior el campo slug es de tipo *SlugField()* y lo marcamos como único, recordar que slug es similar a un id o algo así, es un código único que se utiliza para identificar un elemento pero de una forma que sea entendible para los humanos, por ejemplo, cuando escogemos un meetup de este proyecto, nos redirecciona a una nueva página, e identificamos a que meetup se está haciendo referencia mediante la propiedad slug del objeto en cuestión.
+
+## Crear BD:
+* Luego de ya tener los modelos necesarios o al menos parte de ellos que vamos a estar utilizando, debemos crear la BD.
+* Para crear la BD debemos correr el siguiente código --> *python manage.py makemigrations*
+  - Lo cual en este caso dará como resultado la creación de la migración de los modelos que se hayan definidos teniendo como resultado algo como el siguiente ejemplo:
+    ![image](https://user-images.githubusercontent.com/84333525/138124517-6290dfee-88e1-4344-885e-19d1a379338f.png)
+    
+* Luego de tener creada la migración y verificar que se ha creado correctamente con los elementos necesarios, que dicho sea de paso las migraciones se guardan en la carpeta migrations de la app, pasamos a correr la migración con el siguiente código:
+- *python manage.py migrate*
+- Este comando es el encargado de correr la migración en la BD.
 
 
