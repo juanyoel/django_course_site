@@ -100,4 +100,75 @@ el tercer parametro sería la propiedad por la cual se va identificar el objeto 
 - *python manage.py migrate*
 - Este comando es el encargado de correr la migración en la BD.
 
+## Admin Area:
+* A la administración del proyecto Django se accede a través de la url */admin*.
+* Para poder acceder a este panel de administración debemos correr el siguiente comando:
+  - python manage.py createsuperuser
+* Todos los modelos (Tablas en la BD) pueden ser administrados desde este panel, para ello hay que registrarlos en el archivo *admin.py* de la siguiente manera:
+  ![image](https://user-images.githubusercontent.com/84333525/138150403-b0d74905-b632-4ae3-bb10-b9ecab47e3ef.png)
+
+- Agregamos el modelo que queremos adicionar al panel de administración --> *from . models import Meetup*
+- Luego lo registramos de la siguiente manera --> *admin.site.register(Meetup)*
+* Luego ya podemos adicionar via admin panel un objeto del modelo deseado (Lo cual ya me permite modificar la vista *views.py* y utilizar data real).
+
+
+## Obteniendo data real desde la BD:
+* Primero importamos el modelo o modelos con los cuales deseo interactuar con la BD, de la siguiente forma --> *from .models import Meetup*
+* Luego puedo interactuar con la BD mediante un método estático llamado *objects* que contiene todos los métodos para interactuar con la BD.
+  - ![image](https://user-images.githubusercontent.com/84333525/138152147-25c993c6-459c-4b9e-94a0-25a870be1382.png)
+* Para obtener un objeto específico y buscarlo por un parámetro utilizamos *objects.get(param)* ejemplo:
+  - ![image](https://user-images.githubusercontent.com/84333525/138155478-f52254e5-3594-4faa-ba7e-8e8da366ce1b.png)
+
+
+## Upload Imagenes al proyecto:
+* Para adicionar un campo imagen al modelo que lo requiera usamos el tipo *ImageField()* como veremos en la siguiente actualización del modelo con el que estamos trabajando.
+ - ![image](https://user-images.githubusercontent.com/84333525/138156425-fb10a72f-1a2f-474d-adf9-e4fc6627ade0.png)
+
+* Además debemos modificar el archivo de administración y setear algunas variables para que Django sepa dónde va a guardar estas imágenes, porque las mismas no se guardan en la BD, las BD no están optimizadas para guardar imágenes, en cambio este campo que se le esta adicionado lo que hace es guardar una referencia a dónde está guardado.
+  - ![image](https://user-images.githubusercontent.com/84333525/138157288-a4fc053e-7b35-47d7-8b3a-f3cd769ab07f.png)
+
+  - Estas variables se setean para poder decirle a Django dónde va a guaradar esas imágenes.
+  - Para poder trabajar con imágenes se necesita instalar una librería externa que usa Django para este trabajo llamada Pillow, para esto usamos el comando:
+    *python -m pip install Pillow*
+    
+## Notas sobre el trabajo con imágenes.
+* Si se quiere poder visualizar la imágen que se sube en el panel de administración hay que realizar algunas modificaciones a los archivos de configuración:
+ -  ![image](https://user-images.githubusercontent.com/84333525/138160702-9658a28b-9c0b-44e4-903f-7f1109deb216.png)
+
+* Además para visualizar las imágenes del objeto en cuestión en la vista de usuarios se deben adicionar algunas conf. como muestro en el siguiente ejemplo:
+  - primero mediante interpolación le pongo el nombre que crea conveniente:
+  ![image](https://user-images.githubusercontent.com/84333525/138163020-2686a27b-52b8-4a94-8280-2f94bf39438a.png)
+  - el paso anterior es en caso de que el lugar desde dónde se llama la imagen sea un partials de otra página en caso contrario se haría como en el siguiente ejemplo y listo:
+  ![image](https://user-images.githubusercontent.com/84333525/138163225-2ff1b86e-2764-4484-a08b-03a48ab95405.png)
+
+## Notas sobre el sitio de administración y la representación de objetos de la BD en el mismo:
+* Por defecto para mostrar los objetos en el sitio de la administración o si se imprimen a lo que se está invocando es al métos str() o sea a la representación como string de dicho objeto. Ejemplo de lo antes dicho:
+ - ![image](https://user-images.githubusercontent.com/84333525/138164170-40c9232e-d9c6-4336-9bdf-ad186b16b187.png)
+
+* Para cambiar lo anterior se debe reimplementar dicho método de la siguiente manera:
+  ![image](https://user-images.githubusercontent.com/84333525/138164481-a208daee-6f2b-404f-a078-c249c70f2b7d.png)
+* Lo que nos daría como resultado lo siguiente:
+  ![image](https://user-images.githubusercontent.com/84333525/138164623-22368ea6-dad3-475c-ac6a-da83a4f7917d.png)
+
+* ** Si se quiere incluso dar más detalles y configurar los objetos en mayor profundidad podemos seguir los siguientes pasos **
+* En el archivo *admin.py* puedes crear una clase que obligatoriamente tienes que pasarle como parámetro *admin.ModelAdmin* y dentro de la clase tiene varios atributos, uno de ellos es list_display, con el cual podemos configurar como se muestra nuestro objeto en el panel de administración, a continuación ejemplos:
+ 1. ![image](https://user-images.githubusercontent.com/84333525/138166102-332a397b-da5a-4969-8b7e-d993df2664c7.png)
+
+  Primero adicionamos la clase y luego se la pasamos como segundo parámetro al *admin.site.register*
+ 2. Ejemplo de antes y después:
+    Antes:
+    ![image](https://user-images.githubusercontent.com/84333525/138166373-a665712a-2788-474f-a7d0-e2c9f2788869.png)
+
+    Después:
+    ![image](https://user-images.githubusercontent.com/84333525/138166490-a8db1376-9a71-402d-a75b-3c15a831428b.png)
+
+* Además le podemos adicionar por dónde filtrar y muchísimas más features:
+  ![image](https://user-images.githubusercontent.com/84333525/138167032-8514ca29-7d7d-4554-b466-06967f5bd996.png)
+  ## Importante:
+  * Recordemos que en este proyecto los objetos tienen un campo denominado slug, que no es más que una llave única de identificación que puede ser entendida por los humanos, Django tiene una feature muy buena que muestro a continuación con la cual, puedo autogenerar ese campo diciendole como debe ser creado:
+  ![image](https://user-images.githubusercontent.com/84333525/138167649-82071f80-a475-4d4b-be1d-62944e6e3034.png)
+- En este caso el campo señalado fue autogenerado al adicionar un nuevo Meetup y darle un título
+  ![image](https://user-images.githubusercontent.com/84333525/138167909-46689281-9685-4b33-84d8-9e1096ac85e0.png)
+
+
 
