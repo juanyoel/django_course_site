@@ -203,3 +203,21 @@ el tercer parametro sería la propiedad por la cual se va identificar el objeto 
    ![image](https://user-images.githubusercontent.com/84333525/138282279-7c5c2b56-8231-4ec6-9a98-efc4529b5f54.png)
 
   
+## Trabajo con formularios: ##
+* Podemos trabajar los formularios con las etiquetas *form* de siempre, pero convenientemente podemos usar las herramientas que nos proporciona Django para el trabajo con los formilarios.
+* Agregamos un archivo *forms.py* a la app.
+* A est archivo le agregamos el import forms y creamos una clase en que le pasamos form.ModelForm como parámetro para tener acceso a todos los features.
+* Además importamos el modelo con el cual queremos vincular el formulario y creamos una nested class que es una feature de python como veremos en la siguiente imagen:
+  ![image](https://user-images.githubusercontent.com/84333525/138292271-13edd49f-0822-4b47-a9d7-b5fa1d06e345.png)
+de esta forma tenemos vinculado un modelo a un formulario específico.
+* Además podemos restringir los campos que le creamos al formulario de la siguiente manera, estos son los que debe mostrar:
+![image](https://user-images.githubusercontent.com/84333525/138292829-5c2e273f-1fdf-4c93-a9ec-bdbcc1e14e5a.png)
+
+* Luego debemos vincular el formulario a la vista, para ello debemos modificar el archivo view.py con los siguientes parámetros:
+ - Primero importamos el formulario desde el archivo *forms.py*
+ - Segundo crear la variable en la vista que renderiza el formulario e iniciar la clase del formulario como veremos en la imagen
+ - Tercero se le pasa esos valores en una nueva clave del diccionario que se retorna en la vista.
+ - Ya estando en la vista debemos invocar al formulario mediante la clave que decidimos ponerle en el diccionario como veremos también en las imagenes de ejemplo.
+ 
+ Imagen 1:
+ 
