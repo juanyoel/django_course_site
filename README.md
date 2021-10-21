@@ -196,5 +196,10 @@ el tercer parametro sería la propiedad por la cual se va identificar el objeto 
 
   ![image](https://user-images.githubusercontent.com/84333525/138207483-811d2b72-a94e-4678-9fe6-8577d6c81ea1.png)
 
+  Con este argumento *blank=TRUE* estamos permitiendo que el campo pueda ser *empty*
+  
+ * ## Nota importante: ##
+   -  En el caso de los campos normales que definen a un modelo, en que le agregamos el parámetro *blak=True* deberíamos agregarle también el parámetro *null=True*:
+   ![image](https://user-images.githubusercontent.com/84333525/138282279-7c5c2b56-8231-4ec6-9a98-efc4529b5f54.png)
 
-
+  
