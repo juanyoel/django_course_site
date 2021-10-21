@@ -171,4 +171,30 @@ el tercer parametro sería la propiedad por la cual se va identificar el objeto 
   ![image](https://user-images.githubusercontent.com/84333525/138167909-46689281-9685-4b33-84d8-9e1096ac85e0.png)
 
 
+## Relaciones entre tablas de las BD:
+![image](https://user-images.githubusercontent.com/84333525/138204807-951e07cd-a3eb-4b4e-8f60-9805f04a84d5.png)
+
+* ****Uno a mucho****:
+* En este caso veremos la relación uno a muchos, debido a que un Meetup solo puede tener una locación, pero en una misma locación puede haber muchos meetups.
+* Para ello agregamos al modelo del meetup la llave foranea de la locación como veremos en el próximo ejemplo:
+
+![image](https://user-images.githubusercontent.com/84333525/138205224-0c2a27cb-67ac-4ea1-89d6-012cdbd24faa.png)
+
+* Tendremos en cuenta que si una locación es eliminada de la BD entonces se eliminará el meetup que tenga asociado, para ello agregamos otro argumento como veremos en la próxima imagen:
+
+![image](https://user-images.githubusercontent.com/84333525/138205458-4127e507-bb02-4638-bd1e-374d5d5c4b73.png)
+
+* Podemos tener en cuenta que esta no es la única opción para cuando eliminamod un elemento, también podriamos setearlo a null, entre otros.
+
+* ***** Mucho a mucho*****:
+ Para demostrar las relaciones mucho a mucho en este caso adicionamos un nuevo model *participantes* debido a que un meetup puede tener muchos participantes y a su vez los participantes pueden estar en muchos meetups.
+ * Para ello adicionamos al modelo Meetup el campo participantes que va a ser de tipo *ManyToManyField(Participant)* dónde le pasamos como parámetro el mdelo con el cual tiene la relación como veremos en la imagen siguiente:
+  ![image](https://user-images.githubusercontent.com/84333525/138207118-5d3d512a-7ded-404a-be2e-d43ab571bc28.png)
+  
+  * Podemos tener en cuenta que esto lo podemos hacer en cualquiera de los dos modelos.
+  * Django lo que hace es crear una tabla extra con los ids de ambos modelos, para decirle a Django que inicialmente puede no tener ninguna relación adicionamos un argumento más a la declaración de la relación como vemos en la próxima imagen:
+
+  ![image](https://user-images.githubusercontent.com/84333525/138207483-811d2b72-a94e-4678-9fe6-8577d6c81ea1.png)
+
+
 
