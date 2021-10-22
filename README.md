@@ -219,5 +219,71 @@ de esta forma tenemos vinculado un modelo a un formulario específico.
  - Tercero se le pasa esos valores en una nueva clave del diccionario que se retorna en la vista.
  - Ya estando en la vista debemos invocar al formulario mediante la clave que decidimos ponerle en el diccionario como veremos también en las imagenes de ejemplo.
  
- Imagen 1:
- 
+ Imagenes:
+  - ![image](https://user-images.githubusercontent.com/84333525/138459678-ca0a3616-4cc5-46e7-a90b-94cf12455b20.png)
+  - ![image](https://user-images.githubusercontent.com/84333525/138459819-d5990a3b-ad1d-41de-a0c9-cd2c396b5b25.png)
+  - ![image](https://user-images.githubusercontent.com/84333525/138459898-f0515450-63b7-4784-962a-dcffbfdaae23.png)
+
+* Cuándo queremos hacer una petición desde un formulario como en ejemplo que necesitamos guardar la información del participante y para ello debemos enviar la información, debemos agregar las propiedas *actions* y *method* especificando el tipo de request que se va hacer.
+
+![image](https://user-images.githubusercontent.com/84333525/138461521-c2cc8d66-9b41-47e1-b719-17581a7ba1cb.png)
+
+* En caso de que queremos redireccionar a otra página el código se pondría en la propiedad *actions* como veremos en el ejemplo. Para este ejemplo queremos quedarnos en la misma página por si tenemos algún error.
+  
+  - ![image](https://user-images.githubusercontent.com/84333525/138462154-d65b9933-e1c4-4f9f-a2a5-5c7585ddbf21.png)
+
+* Para dar seguridad a la información y protegernos específicamente contra ataques de tipo CSRF podemos utilizar las etiquetas convenientes para ello como veremos en el siguiente ejemplo:
+
+  - ![image](https://user-images.githubusercontent.com/84333525/138462689-16418baf-b6e9-426e-ae9c-87f21663e0d6.png)
+
+* Hasta el momento no habíamos manejado el tipo de las peticiones o request, para el caso que estamos analizando simplemente podemos poner una condicional como muestro a continuación:
+ - ![image](https://user-images.githubusercontent.com/84333525/138463786-268b94a8-839c-4eb1-9b84-987f04d32ed1.png)
+
+* Luego ya estamos en condiciones de poder guardar al participante como lo veremos en la siguiente imagen. Es importante guardar el retorno de la consulta para guaradar en la BD.
+  - ![image](https://user-images.githubusercontent.com/84333525/138464693-b6c1112b-8753-46fb-aa90-a37c5fac210c.png)
+
+* Como tenemos una relación mucho a mucho, tenemos que tener en cuenta que si agregamos un participante *Participant* tenemos que actualizar también el Meetup.
+ - O sea recordar que en el modelo Meetup tenemos un campo que hace referencia al modelo Participant, por lo que si adicionamos un participante tenemos que agregarlo al modelo también :( --> **** ojo que no entendí bien la cosa ****
+
+  - ![image](https://user-images.githubusercontent.com/84333525/138465991-73460823-5bdb-4fce-b410-14566bf789d5.png)
+
+  - ![image](https://user-images.githubusercontent.com/84333525/138466102-da0eadae-0bec-4361-82a1-d0a12e520a28.png)
+* En las palabras de instructor that's to add new related record
+
+## Creamos una nueva página de confirmación:
+* Válido para creación de cualquier otro tipo de página el subtitulo es sólo para guirarme en el ejemplo:
+  - Creamos la vista UI, en este caso se le puso de nobre registration_succedd.html.
+  - Luego debemos crear la función en el archivo *views.py* que va a renderizar esa vista y manejará la información debida.
+  - Luego en el archivo *urls.py* adicionar el nuevo path.
+  - Tener en cuenta que las urls como estas que no son dinámicas deben ir encima de las que si lo son, para evitar que Django intente matchear las url: (ver ejemplo)
+  - Para redireccionar a la nueva página, sólo debemos importar *redirect* como veremos en la imagen, y llamar al método redirect pasandole como argumento la página a la que de be redireccionar y es todo.
+  
+-   ![image](https://user-images.githubusercontent.com/84333525/138470576-19a5fd6c-e1f3-454b-8f2c-64347001ccb9.png)
+-   ![image](https://user-images.githubusercontent.com/84333525/138470639-965dee7d-07af-44e7-b0af-1fed12067481.png)
+-   ![image](https://user-images.githubusercontent.com/84333525/138470739-d04d1ccc-4fe0-4690-8adb-a0b234d0df19.png)
+-   ![image](https://user-images.githubusercontent.com/84333525/138470820-0ba95d34-534d-4e8e-b415-2e4ac86c7702.png)
+
+## **//Interesante//
+En el ejemplo del curso tenemos la siguiente situación curiosa
+- ![image](https://user-images.githubusercontent.com/84333525/138474706-e4723c34-6b98-4d15-adea-fd605cf8c9fc.png)
+
+Aquí estamos señalando el método con el que estamos guardando el participante en la BD, lo cuál no esta mal, pero nos causa un pequeño issue que pudiera que se me diera el caso en alguna situación, y es que como es un modelo de Participant lo que se esta creando, el mismo tiene como campo *email* el cual es único, lo que sucede es que un mismo participante debería poder registrarse en más de un Meetup, y ahí es dónde tenemos el problema, ya que al registrarse en uno, el correo ya existe en la BD y no le permite registrarse en otro porque le da error, para resolver eso seguimos los siguientes pasos:
+
+![image](https://user-images.githubusercontent.com/84333525/138476003-8f99180f-5138-433e-bf67-68aa403a1a28.png)
+
+*cleaned_data* este método del formulario nos permite acceder a la info que guarda un determinado campo del formulario
+Se debe importar el módelo Participant para poder acceder a sus atributos, el método *get_or_create('argumento')* recibe como parámetro un argumento por el cuál buscará en la BD si existe y en caso contrario lo crea.
+
+## Notas finales:
+* Otra forma de trabajar con los formularios es heredar directamente de la clase Form, lo cual nos brinda muchas más posibilidades de validación, si lo hacemos así tenemos que tener en cuenta que tenemos que agregar los campos del formulario de forma manual
+ - ![image](https://user-images.githubusercontent.com/84333525/138481528-90572054-48d2-4133-b8f9-e82e7f444b42.png)
+
+* Otra nota final, es que hasta el momento cuando iniciamos el servidor, debemos escribir manualmente la url para que nos cargue la página principal, para corregir este problema, seguimos los siguientes pasos:
+ 1. En el archivo *urls.py* del proyecto hacemos la importación del RedirectView
+    ![image](https://user-images.githubusercontent.com/84333525/138482009-4f2715a9-f9d0-4bb4-a988-e6e2e89dd6c3.png)
+
+ 2. En este mismo archivo haríamos los siguientes cambios:
+    ![image](https://user-images.githubusercontent.com/84333525/138482544-1bc90fe4-12d7-4a41-bfa0-c5540a9191a1.png)
+
+3. Por último modificaríamos el archivo *urls.py* de la app:
+   ![image](https://user-images.githubusercontent.com/84333525/138482886-b9e33e4c-7564-477d-a49e-33a118fced4d.png)
